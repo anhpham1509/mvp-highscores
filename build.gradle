@@ -1,0 +1,39 @@
+buildscript {
+    ext {
+        dependencyManagementPluginVersion = '1.0.1.RELEASE'
+        springBootVersion = '1.5.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:${dependencyManagementPluginVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+allprojects {
+    group = "com.kuuasema"
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+}
+
+subprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+        }
+    }
+}
+
+jar {
+    baseName = 'challenge'
+    version = '0.0.1-SNAPSHOT'
+}

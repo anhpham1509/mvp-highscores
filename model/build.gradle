@@ -1,0 +1,10 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('com.fasterxml.jackson.core:jackson-core')
+    compile('com.fasterxml.jackson.core:jackson-databind')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    runtime('org.postgresql:postgresql')
+}
