@@ -14,6 +14,9 @@ public class Application {
     public final static ControllerError GameNotFound = new ControllerError(
             HttpStatus.NOT_FOUND, "Game not found with the given title."
     );
+    public final static ControllerError ScoreNotFound = new ControllerError(
+            HttpStatus.NOT_FOUND, "Score not found with the given gameTitle."
+    );
     public final static ControllerError InvalidRequest = new ControllerError(
             HttpStatus.BAD_REQUEST, "Invalid request parameters"
     );
