@@ -85,6 +85,10 @@ class ScoreController {
 
     @RequestMapping(method = RequestMethod.POST)
     ResponseEntity<?> postScore(@RequestBody PostScoreParams params) {
+        if (!(validatePlayerId(params.getPlayerId()) && validateGameTitle(params.getGameTitle()) && validateScore(params.getScore()))) {
+            return Application.InvalidRequest.build();
+        }
+
         Player player = this.playerRepository.findById(params.getPlayerId());
         if (player != null) {
 
@@ -152,8 +156,11 @@ class ScoreController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/game/{gameTitle}")
     ResponseEntity<?> getHighScore(@PathVariable String gameTitle) {
-        Game game = this.gameRepository.findByTitle(gameTitle);
+        if (!validateGameTitle(gameTitle)) {
+            return Application.InvalidRequest.build();
+        }
 
+        Game game = this.gameRepository.findByTitle(gameTitle);
         if (game != null) {
             Set<Score> scoreSet = this.scoreRepository.findByGame(game);
             List<GameScore> gameScores = new ArrayList<>();
@@ -187,6 +194,10 @@ class ScoreController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/player/{playerId}")
     ResponseEntity<?> getPlayer(@PathVariable String playerId) {
+        if (!validatePlayerId(playerId)) {
+            return Application.InvalidRequest.build();
+        }
+
         Player player = this.playerRepository.findById(playerId);
         if (player != null) {
             Set<Score> scoreSet = player.getScores();
@@ -215,6 +226,10 @@ class ScoreController {
 
     @RequestMapping(method = RequestMethod.DELETE)
     ResponseEntity<?> deletePlayerScore(@RequestBody DeleteScoreParams params) {
+        if (!(validatePlayerId(params.getPlayerId()) && validateGameTitle(params.getGameTitle()))) {
+            return Application.InvalidRequest.build();
+        }
+
         Player player = this.playerRepository.findById(params.getPlayerId());
         if (player != null) {
 
@@ -232,5 +247,19 @@ class ScoreController {
         }
 
         return Application.PlayerNotFound.build();
+    }
+
+    String uuidRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
+
+    boolean validatePlayerId(String playerId) {
+        return playerId.matches(uuidRegex);
+    }
+
+    boolean validateGameTitle(String gameTitle) {
+        return !gameTitle.equals("");
+    }
+
+    boolean validateScore(Double score) {
+        return score > 0.0;
     }
 }
