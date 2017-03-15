@@ -1,7 +1,5 @@
 package com.kuuasema.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,13 +13,11 @@ import java.util.UUID;
 public class Game {
 
     @Id
-    @JsonIgnore
     private String id;
 
     @Column(unique = true)
     private String title;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "game")
     private Set<Score> scores = new HashSet<Score>();
 

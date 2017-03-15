@@ -1,7 +1,5 @@
 package com.kuuasema.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -15,16 +13,12 @@ import java.util.UUID;
 public class Score {
 
     @ManyToOne(optional=false)
-    //@JoinColumn(name="player_id")
-    //@JoinColumn(referencedColumnName = "id")
     private Player player;
 
     @Id
-    @JsonIgnore
     private String id;
 
     @ManyToOne(optional=false)
-    //@JoinColumn(referencedColumnName = "id")
     private Game game;
 
     private Double score;

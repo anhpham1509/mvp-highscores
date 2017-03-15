@@ -1,7 +1,5 @@
 package com.kuuasema.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,12 +13,10 @@ import java.util.UUID;
  */
 @Entity(name = "player")
 public class Player {
-    @JsonIgnore
     @OneToMany(mappedBy = "player")
     private Set<Score> scores = new HashSet<Score>();
 
     @Id
-    @JsonIgnore
     private String id;
 
     @Column(unique = true)
