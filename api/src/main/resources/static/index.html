@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="challenge">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
+        <script src="js/player.js"></script>
+
+        <title>MVP High Score</title>
+    </head>
+    <body>
+        <div>
+            <label for="player_name_input">Player Name</label>
+            <input id="player_name_input" type="text"/>
+            <button type="submit">Register</button>
+        </div>
+
+        <h2>Player list</h2>
+        <div ng-controller="playerCtl">
+            <div ng-repeat="player in players">
+                <p>{{player}}</p>
+            </div>
+        </div>
+    </body>
+</html>
