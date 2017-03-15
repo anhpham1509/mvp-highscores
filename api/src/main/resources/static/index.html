@@ -2,22 +2,393 @@
 <html lang="en" ng-app="challenge">
     <head>
         <meta charset="UTF-8">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
-        <script src="js/player.js"></script>
+        <script src="js/app.js"></script>
 
-        <title>MVP High Score</title>
+        <title>MVP High Scores</title>
     </head>
     <body>
-        <div>
-            <label for="player_name_input">Player Name</label>
-            <input id="player_name_input" type="text"/>
-            <button type="submit">Register</button>
-        </div>
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <a class="navbar-brand" href="/">MVP High scores</a>
+        </nav>
+        <div class="container" style="padding-top: 15px;">
+            <div class="col-md-4 col-sm-12">
+                <div class="panel panel-warning" ng-controller="registerCtl">
+                    <div class="panel-heading">Register player</div>
+                    <div class="panel-body">
+                        <form role="form" style="padding-bottom: 15px;" ng-submit="register()">
+                            <label for="player_name_input">Player name:</label>
 
-        <h2>Player list</h2>
-        <div ng-controller="playerCtl">
-            <div ng-repeat="player in players">
-                <p>{{player}}</p>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-user-plus"></i></span>
+                                <input id="player_name_input"
+                                       type="text"
+                                       class="form-control"
+                                       ng-model="playerName"
+                                       placeholder="Enter player name here">
+                            </div>
+
+                            <button class="btn btn-default btn-block" type="submit">Register</button>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status code: {{ code }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ content }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Player Id</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>{{ content.playerId }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">Submit score</div>
+                    <div class="panel-body" ng-controller="scoreCtl">
+                        <form role="form" style="padding-bottom: 15px;" ng-submit="submit()">
+                            <label for="player_id_input">Player id:</label>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input id="player_id_input"
+                                       type="text" class="form-control"
+                                       ng-model="submitPlayerId"
+                                       placeholder="Enter player id here">
+                            </div>
+
+                            <label for="game_title_input">Game title:</label>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-gamepad"></i></span>
+                                <input id="game_title_input"
+                                       type="text" class="form-control"
+                                       ng-model="submitGameTitle"
+                                       placeholder="Enter game title here">
+                            </div>
+
+                            <label for="score_input">Score:</label>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-trophy"></i></span>
+                                <input id="score_input"
+                                       type="text" class="form-control"
+                                       ng-model="submitScore"
+                                       placeholder="Enter score here">
+                            </div>
+
+                            <button class="btn btn-default btn-block" type="submit">Submit</button>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status code: {{ submitCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ submitContent }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <tbody>
+                                        <tr>
+                                            <td>Player Name</td>
+                                            <td>{{ submitContent.playerName }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Game title</td>
+                                            <td>{{ submitContent.gameTitle }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Score</td>
+                                            <td>{{ submitContent.score }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+
+                <div class="panel panel-danger">
+                    <div class="panel-heading">Delete score</div>
+                    <div class="panel-body" ng-controller="scoreCtl">
+                        <form role="form" style="padding-bottom: 15px;" ng-submit="delete()">
+                            <label for="player_id_delete_input">Player id:</label>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                <input id="player_id_delete_input"
+                                       type="text" class="form-control"
+                                       ng-model="deletePlayerId"
+                                       placeholder="Enter player id here">
+                            </div>
+
+                            <label for="game_title_delete_input">Game title:</label>
+
+                            <div class="form-group input-group">
+                                <span class="input-group-addon"><i class="fa fa-gamepad"></i></span>
+                                <input id="game_title_delete_input"
+                                       type="text" class="form-control"
+                                       ng-model="deleteGameTitle"
+                                       placeholder="Enter game title here">
+                            </div>
+
+                            <button class="btn btn-default btn-block" type="submit">Delete</button>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status code: {{ deleteCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ deleteContent }}</span>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Game high scores</div>
+                    <div class="panel-body" ng-controller="scoreCtl">
+                        <form role="form" ng-submit="getByGame()">
+                            <div class="form-group">
+                                <label for="game_title_get_input">Game title</label>
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="fa fa-gamepad"></i></span>
+                                    <input id="game_title_get_input"
+                                           type="text" class="form-control"
+                                           ng-model="getGameTitle"
+                                           placeholder="Enter game title here">
+                                </div>
+
+                                <button class="btn btn-default btn-block" type="submit">Get</button>
+                            </div>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status {{ gameCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ gameScores }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Player</th>
+                                            <th class="text-center">Score</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="score in gameScores">
+                                            <td>{{score.playerName}}</td>
+                                            <td>{{score.score}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">Player high scores</div>
+                    <div class="panel-body" ng-controller="scoreCtl">
+                        <form role="form" ng-submit="getByPlayer()">
+                            <div class="form-group">
+                                <label for="player_id_get_input">Player id:</label>
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input id="player_id_get_input"
+                                           type="text" class="form-control"
+                                           ng-model="getPlayerId"
+                                           placeholder="Enter player id here">
+                                </div>
+
+                                <button class="btn btn-default btn-block" type="submit">Get</button>
+                            </div>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status {{ playerCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ playerScores }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Game title</th>
+                                            <th class="text-center">Score</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="score in playerScores">
+                                            <td>{{score.gameTitle}}</td>
+                                            <td>{{score.score}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">Search game titles</div>
+                    <div class="panel-body" ng-controller="searchCtl">
+                        <form role="form" ng-submit="searchGame()">
+                            <div class="form-group">
+                                <label for="game_title_search_input">Game title</label>
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="fa fa-gamepad"></i></span>
+                                    <input id="game_title_search_input"
+                                           type="text" class="form-control"
+                                           ng-model="searchGameTitle"
+                                           placeholder="Enter game title here">
+                                </div>
+
+                                <button class="btn btn-default btn-block" type="submit">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status {{ searchGameCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ searchGameContent }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Game titles</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="game in searchGameContent">
+                                            <td>{{ game }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading">Search player names</div>
+                    <div class="panel-body" ng-controller="searchCtl">
+                        <form role="form" ng-submit="searchPlayer()">
+                            <div class="form-group">
+                                <label for="player_name_search_input">Player name</label>
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input id="player_name_search_input"
+                                           type="text" class="form-control"
+                                           ng-model="searchPlayerName"
+                                           placeholder="Enter player name here">
+                                </div>
+
+                                <button class="btn btn-default btn-block" type="submit">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <i class="fa fa-reply fa-fw"></i> Response
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                Status Code: {{ searchPlayersCode }}
+                                <br>
+                                Raw content: <span style="white-space: pre-wrap;">{{ searchPlayersContent }}</span>
+
+                                <div class="table-responsive">
+                                    <table class="table text-center">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Player names</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="player in searchPlayersContent">
+                                            <td>{{ player }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                </div>
             </div>
         </div>
     </body>
