@@ -25,7 +25,7 @@ class RegisterController {
         this.playerRepository = playerRepository;
     }
 
-    static class RegisterParams {
+    private static class RegisterParams {
         private String playerName;
 
         public String getPlayerName() {
@@ -33,7 +33,7 @@ class RegisterController {
         }
     }
 
-    static class RegisterRes {
+    private static class RegisterRes {
         private String playerId;
 
         public RegisterRes(String playerId) {

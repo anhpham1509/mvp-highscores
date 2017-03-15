@@ -32,7 +32,7 @@ class ScoreController {
         this.gameRepository = gameRepository;
     }
 
-    static class PostScoreParams {
+    private static class PostScoreParams {
         private String playerId;
         private String gameTitle;
         private Double score;
@@ -50,7 +50,7 @@ class ScoreController {
         }
     }
 
-    static class PostScoreRes implements Comparable{
+    private static class PostScoreRes implements Comparable{
         private String playerName;
         private String gameTitle;
         private Double score;
@@ -127,7 +127,7 @@ class ScoreController {
         return Application.PlayerNotFound.build();
     }
 
-    static class GameScore implements Comparable{
+    private static class GameScore implements Comparable{
         private String playerName;
         private Double score;
 
@@ -174,7 +174,7 @@ class ScoreController {
         return Application.GameNotFound.build();
     }
 
-    static class PlayerScore{
+    private static class PlayerScore{
         private String gameTitle;
         private Double score;
 
@@ -211,7 +211,7 @@ class ScoreController {
         return Application.PlayerNotFound.build();
     }
 
-    static class DeleteScoreParams {
+    private static class DeleteScoreParams {
         private String playerId;
         private String gameTitle;
 
