@@ -1,4 +1,4 @@
-# MVP Highscores  
+# [MVP High Scores](https://mvp-highscores.herokuapp.com/)
 
 ## Features  
 * Register player  
@@ -168,8 +168,8 @@ Get a list of game titles match the given pattern.
  
 ## Development notes:  
 * Data validation:  
-	* `playerName`, `gameTitle` should not be empty  
-	* `score` should not be more than 0  
-	* Controllers tests are included and placed at `api/src/test/java/com/kuuasema`  
+	* `playerName`, `gameTitle` should not be empty.  
+	* `score` should be more than 0.  
+	* Controllers tests are included and placed at `api/src/test/java/com/kuuasema`.  
 
 	
